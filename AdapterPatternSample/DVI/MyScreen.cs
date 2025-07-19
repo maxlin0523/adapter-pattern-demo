@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AdapterPatternSample.DVI
 {
     /// <summary>
@@ -11,9 +5,23 @@ namespace AdapterPatternSample.DVI
     /// </summary>
     public class MyScreen : IDVI
     {
+        public bool IsConnected { get; private set; }
+
         public void Connect()
         {
             Console.WriteLine("螢幕故障連接失敗");
+            IsConnected = false;
+        }
+
+        public void Disconnect()
+        {
+            Console.WriteLine("螢幕已斷開連接");
+            IsConnected = false;
+        }
+
+        public string GetConnectionStatus()
+        {
+            return IsConnected ? "DVI螢幕連接正常" : "DVI螢幕連接失敗或未連接";
         }
     }
 }
