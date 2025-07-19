@@ -1,10 +1,6 @@
-﻿using AdapterPatternSample.DVI;
+using AdapterPatternSample.DVI;
 using AdapterPatternSample.HDMI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdapterPatternSample.Adapter
 {
@@ -14,15 +10,17 @@ namespace AdapterPatternSample.Adapter
     /// </summary>
     public class DVIAdapter : IDVI
     {
-        private IHDMI _hdmi;
+        private readonly IHDMI _hdmi;
 
         /// <summary>
         /// 建構式參數＝要被轉換的物件(HDMI)
         /// </summary>
         public DVIAdapter(IHDMI hdmi)
         {
-            _hdmi = hdmi;       
+            _hdmi = hdmi ?? throw new ArgumentNullException(nameof(hdmi));
         }
+
+        public bool IsConnected => _hdmi.IsConnected;
 
         /// <summary>
         /// 實作IDVI Connect
@@ -32,6 +30,18 @@ namespace AdapterPatternSample.Adapter
         {
             Console.WriteLine("轉接: HDMI to DVI");
             _hdmi.Connect();
+        }
+
+        public void Disconnect()
+        {
+            Console.WriteLine("斷開轉接: HDMI to DVI");
+            _hdmi.Disconnect();
+        }
+
+        public string GetConnectionStatus()
+        {
+            var hdmiStatus = _hdmi.GetConnectionStatus();
+            return $"轉接器狀態: {hdmiStatus} (透過HDMI to DVI轉接)";
         }
     }
 }
