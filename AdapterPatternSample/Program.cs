@@ -46,7 +46,15 @@ namespace AdapterPatternSample
             hostWithBrokenScreen.CheckStatus();
 
             Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
+            try
+            {
+                Console.ReadKey();
+            }
+            catch (InvalidOperationException)
+            {
+                // 在非互動環境中忽略此錯誤
+                Console.WriteLine("(Running in non-interactive mode)");
+            }
         }
     }
 }
